@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="../css/style.css"> 
+    <link rel="stylesheet" href="../css/bootstrap.min.css"> 
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.validate.js"></script>
+    <script src="../models/car.js"></script>
+    <script src="../models/wheel.js"></script>
+    <script src="../controllers/controller.js"></script>
+</head>
+<body>
+    <div class="container contenedor d-flex flex-column align-items-center justify-content-center col-8 ">
+    <form id="Sign-car" class="needs-validation" novalidate action="#" method="post">
+        <h1>Ejercicios vehículos</h1>
+        <div class="wraper ">
+            <div class="col-8 ">
+                <label for="placa"  class="form-label text-primary">Número de placa</label>
+                <input type="text" class="form-control" id="placa" name="placa"  onfocusout="ValidarPlaca()" placeholder="Número de placa"  required>
+                <p class="" id="msg-placa"></p>
+            </div>
+
+            
+            <div class="col-8">
+                <label for="color"  class="form-label text-primary">Color</label>
+                <input type="text" class="form-control" id="color"  name="color" onfocusout="ValidarColor()" placeholder="color"  required>
+                <p class="hide" id="msg-color"></p>
+            </div>
+            
+            <div class="col-8">
+                <label for="marca"  class="form-label text-primary">Diga la marca</label>
+                <input type="text" class="form-control" id="marca"  name="marca" onfocusout="ValidarMarca()" placeholder="Marca"  required>
+                <p class="hide" id="msg-marca"></p>
+            </div>
+    
+            <div class="col-8 mt-2">
+                <button class="btn btn-primary" type="button" onclick="validateFormSignCar()">Continuar</button>
+            </div>
+        </div>
+    </div>
+    
+    </form>
+    <div class="wraper w-auto">
+        <button class="btn btn-primary" type="button" onclick="showCars()">Mostrar coches</button>
+        <div id="carInfo" class="bg-dark  rounded px-1 text-light">
+        <div id="carInfo" class="bg-dark  rounded px-1 text-light">
+        </div>
+    </div>
+    
+
+    <form id="Sign-wheelS"  class="needs-validation hide" novalidate action="#"  method="post">
+                <h1>Ejercicios vehículos</h1> 
+                <div class="wraper-1 d-flex justify-content-center col-8 ">
+                    <div class="container contenedor d-flex flex-wrap justify-content-evenly">
+                        <div class="row-3 m-2 d-block">
+                            <label for="ruedaUno"  class="form-label text-primary">Marca de rueda número uno</label>
+                            <input type="text" class="form-control p-2" onfocusout="ValidateSignWheelS('ruedaUno', false)"  id="ruedaUno" name="ruedaUno"   placeholder="marca de rueda número uno"  required>
+                            <p class="hide" id="msg-ruedaUno"></p>
+                            <div class="valid-feedback">
+                            Looks good!
+                            </div>
+                        </div>   
+                        <div class="row-3 m-2 d-block"> 
+                            <label for="diametroRuedaUno"  class="form-label text-primary">Diámetro de rueda número uno</label>
+                            <input type="number"placeholder="1.0" onfocusout="ValidateSignWheelS('diametroRuedaUno', true)" step="0.01" min="0" max="5" class="form-control p-2" id="diametroRuedaUno" name="diametroRuedaUno"   placeholder="Diámetro de rueda número uno"  required>
+                            <p class="hide" id="msg-diametroRuedaUno"></p>
+                            <div class="valid-feedback">
+                            Looks good!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container contenedor d-flex flex-wrap justify-content-evenly">
+                        <div class="row-3 m-2 d-block">
+                            <label for="ruedaDos"  class="form-label text-primary">Marca de la rueda número dos</label>
+                            <input type="text" class="form-control p-2"  id="ruedaDos" name="ruedaDos" onfocusout="ValidateSignWheelS('ruedaDos', false)" placeholder="Marca de la rueda número dos"  required>
+                            <p class="hide" id="msg-ruedaDos"></p>
+                            <div class="valid-feedback">
+                            Looks good!
+                            </div>
+                        </div>   
+                        <div class="row-3 m-2 d-block"> 
+                            <label for="diametroRuedaDos"  class="form-label text-primary">Diámetro de la rueda número dos</label>
+                            <input type="number" placeholder="1.0" step="0.01" min="0" max="5" onfocusout="ValidateSignWheelS('diametroRuedaDos', true)" class="form-control p-2" id="diametroRuedaDos" name="diametroRuedaDos"   placeholder="Diámetro de la rueda número dos"  required>
+                            <p class="hide" id="msg-diametroRuedaDos"></p>
+                            <div class="valid-feedback">
+                            Looks good!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container contenedor d-flex flex-wrap justify-content-evenly">
+                        <div class="row-3 m-2 d-block">
+                            <label for="ruedaTres"  class="form-label text-primary">Marca de rueda número tres</label>
+                            <input type="text"  class="form-control p-2"  id="ruedaTres" name="ruedaTres" onfocusout="ValidateSignWheelS('ruedaTres', false)"  placeholder="marca de rueda número tres"  required>
+                            <p class="hide" id="msg-ruedaTres"></p>
+                            <div class="valid-feedback">
+                            Looks good!
+                            </div>
+                        </div>   
+                        <div class="row-3 m-2 d-block"> 
+                            <label for="diametroRuedaTres"  class="form-label text-primary">Diámetro de rueda número tres</label>
+                            <input type="number" class="form-control p-2" placeholder="1.0" step="0.01" min="0" max="5" onfocusout="ValidateSignWheelS('diametroRuedaTres', true)" id="diametroRuedaTres"  name="diametroRuedaTres"   placeholder="Diámetro de rueda número tres"  required>
+                            <p class="hide" id="msg-diametroRuedaTres"></p>
+                            <div class="valid-feedback">
+                            Looks good!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container contenedor d-flex flex-wrap justify-content-evenly">
+                        <div class="row-3 m-2 d-block">
+                            <label for="ruedaCuatro"  class="form-label text-primary">Marca de rueda número cuatro</label>
+                            <input type="text" class="form-control p-2"  id="ruedaCuatro" name="ruedaCuatro"  onfocusout="ValidateSignWheelS('ruedaCuatro', false)" placeholder="marca de rueda número cuatro"  required>
+                            <p class="hide" id="msg-ruedaCuatro"></p>
+                            <div class="valid-feedback">
+                            Looks good!
+                            </div>
+                        </div>   
+                        <div class="row-3 m-2 d-block"> 
+                            <label for="diametroRuedaCuatro"  class="form-label text-primary">Diámetro de rueda número cuatro</label>
+                            <input type="number" class="form-control p-2" id="diametroRuedaCuatro" name="diametroRuedaCuatro" placeholder="1.0" step="0.01" min="0" max="10" onfocusout="ValidateSignWheelS('diametroRuedaCuatro', true)" name="diámetro-rueda-4"   placeholder="Diámetro de rueda número cuatro"  required>
+                            <p class="hide" id="msg-diametroRuedaCuatro"></p>
+                            <div class="valid-feedback">
+                            Looks good!
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="col-8 d-flex justify-content-center contenedor">
+                    <button class="btn btn-primary" type="button" onclick="createCar()" >Insertar ruedas</button>
+                    </div>
+                </div>
+            
+        </form>
+    </div>
+    <!--     <script type="text/javascript">
+        let regex = /^\D*\d{3}$/;
+
+            $.validator.setDefaults( {
+                submitHandler: function () {
+                    console.log( "submitted!" );
+                }
+            } );
+    
+            $( document ).ready( function () { 
+                $( "#Sign-car" ).validate( {
+                    rules: {
+                        placa: {
+                            required: true,
+                            minlength: 7,
+                            maxlength: 7,
+                        },
+                        color: "required",
+                        marca: "required",
+                
+                    },
+                    messages: {
+                        placa: "Por favor Número de la placa y deve contener 7 caracteres", 
+                        color: "Por favor agregue un color", 
+                        marca: "Por favor diga la marca del coche", 
+                    },
+                    errorElement: "em",
+                    errorPlacement: function ( error, element ) {
+                        // Add the `invalid-feedback` class to the error element
+                        error.addClass( "invalid-feedback" );
+    
+                        if ( element.prop( "type" ) === "checkbox" ) {
+                            error.insertAfter( element.next( "label" ) );
+                        } else {
+                            error.insertAfter( element );
+                        }
+                    },
+                    highlight: function ( element, errorClass, validClass ) {
+                        $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+                    },
+                    unhighlight: function (element, errorClass, validClass) {
+                        $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+                    }
+                } );
+                $( "#Sign-wheelS" ).validate( {
+                    rules: {
+                        ruedaUno: "required",
+                        diametroRuedaUno: "required",
+                        ruedaDos: "required",
+                        diametroRuedaDos: "required",
+                        ruedaTres: "required",
+                        diametroRuedaTres: "required",
+                        ruedaCuatro: "required",
+                        diametroRuedaCuatro: "required",
+                        
+                
+                    },
+                    messages: {
+                        placa: "Por favor Número de la placa", 
+                        color: "Por favor agregue un color", 
+                        marca: "Por favor diga la marca del coche", 
+                    },
+                    errorElement: "em",
+                    errorPlacement: function ( error, element ) {
+                        // Add the `invalid-feedback` class to the error element
+                        error.addClass( "invalid-feedback" );
+    
+                        if ( element.prop( "type" ) === "checkbox" ) {
+                            error.insertAfter( element.next( "label" ) );
+                        } else {
+                            error.insertAfter( element );
+                        }
+                    },
+                    highlight: function ( element, errorClass, validClass ) {
+                        $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+                    },
+                    unhighlight: function (element, errorClass, validClass) {
+                        $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+                    }
+                } );
+            } );
+        </script>   -->
+    </body>  
+</html>
+
+
+
+
+
+
