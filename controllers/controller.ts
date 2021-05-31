@@ -5,9 +5,8 @@ let listCars: Array<Car> = []
 let placaOk : boolean = false;
 let colorOk : boolean = false;
 let marcaOk : boolean = false;
-let EmptyInput: boolean=false;
-let Diametro: boolean=false;
 let ValidateSignWheelSForm: boolean = false;
+let numWheels = 4;
 function ValidarPlaca() {
     const plate:string = (<HTMLInputElement>document.getElementById('placa')).value;
 
@@ -104,32 +103,32 @@ function ValidateSignWheelS(idInput: string, validateDiametro: boolean){
     } 
 
     function validteFormWheels(){
-        if(!ValidateSignWheelS('ruedaUno', false)){
+        if(!ValidateSignWheelS('rueda1', false)){
             return false;
         }
 
-        if(!ValidateSignWheelS('diametroRuedaUno', true)){
+        if(!ValidateSignWheelS('diametroRueda1', true)){
             return false;
         }
-        if(!ValidateSignWheelS('ruedaDos', false)){
-            return false;
-        }
-
-        if(!ValidateSignWheelS('diametroRuedaDos', true)){
-            return false;
-        }
-        if(!ValidateSignWheelS('ruedaTres', false)){
+        if(!ValidateSignWheelS('rueda2', false)){
             return false;
         }
 
-        if(!ValidateSignWheelS('diametroRuedaTres', true)){
+        if(!ValidateSignWheelS('diametroRueda2', true)){
             return false;
         }
-        if(!ValidateSignWheelS('ruedaCuatro', false)){
+        if(!ValidateSignWheelS('rueda3', false)){
             return false;
         }
 
-        if(!ValidateSignWheelS('diametroRuedaCuatro', true)){
+        if(!ValidateSignWheelS('diametroRueda3', true)){
+            return false;
+        }
+        if(!ValidateSignWheelS('rueda4', false)){
+            return false;
+        }
+
+        if(!ValidateSignWheelS('diametroRueda4', true)){
             return false;
         }
         return true;
@@ -147,40 +146,23 @@ function ValidateSignWheelS(idInput: string, validateDiametro: boolean){
 
 function createCar(){
     if(validteFormWheels()){
-    const plate:string = (<HTMLInputElement>document.getElementById('placa')).value;
-    const color:string = (<HTMLInputElement>document.getElementById('color')).value;
-    const brand:string = (<HTMLInputElement>document.getElementById('marca')).value;
-    const diametroRuedaUno:number = parseFloat((<HTMLInputElement>document.getElementById('diametroRuedaUno')).value);
-    const ruedaUno:string = (<HTMLInputElement>document.getElementById('ruedaUno')).value;
-    const diametroRuedaDos:number = parseFloat((<HTMLInputElement>document.getElementById('diametroRuedaDos')).value);
-    const ruedaDos:string = (<HTMLInputElement>document.getElementById('ruedaDos')).value;
-    const diametroRuedaTres:number = parseFloat((<HTMLInputElement>document.getElementById('diametroRuedaTres')).value);
-    const ruedaTres:string = (<HTMLInputElement>document.getElementById('ruedaTres')).value;
-    const diametroRuedaCuatro:number = parseFloat((<HTMLInputElement>document.getElementById('diametroRuedaCuatro')).value);
-    const ruedaCuatro:string = (<HTMLInputElement>document.getElementById('ruedaCuatro')).value;
-
-    car = new Car(plate,color,brand);
-    car.addWheel(new Wheel(diametroRuedaUno, ruedaUno));
-    car.addWheel(new Wheel(diametroRuedaDos, ruedaDos));
-    car.addWheel(new Wheel(diametroRuedaTres,ruedaTres));
-    car.addWheel(new Wheel(diametroRuedaCuatro,ruedaCuatro));
-        
+        const plate:string = (<HTMLInputElement>document.getElementById('placa')).value;
+        const color:string = (<HTMLInputElement>document.getElementById('color')).value;
+        const brand:string = (<HTMLInputElement>document.getElementById('marca')).value;
         (<HTMLInputElement>document.getElementById('Sign-car')).classList.toggle('hide');
         (<HTMLInputElement>document.getElementById('Sign-wheelS')).classList.toggle('hide');
-
+        
         (<HTMLInputElement>document.getElementById('placa')).classList.remove('is-valid');
         (<HTMLInputElement>document.getElementById('color')).classList.remove('is-valid');
         (<HTMLInputElement>document.getElementById('marca')).classList.remove('is-valid');
-
-        (<HTMLInputElement>document.getElementById('ruedaUno')).classList.remove('is-valid');
-        (<HTMLInputElement>document.getElementById('ruedaDos')).classList.remove('is-valid');
-        (<HTMLInputElement>document.getElementById('ruedaTres')).classList.remove('is-valid');
-        (<HTMLInputElement>document.getElementById('ruedaCuatro')).classList.remove('is-valid');
-        (<HTMLInputElement>document.getElementById('diametroRuedaUno')).classList.remove('is-valid');
-        (<HTMLInputElement>document.getElementById('diametroRuedaDos')).classList.remove('is-valid');
-        (<HTMLInputElement>document.getElementById('diametroRuedaTres')).classList.remove('is-valid');
-        (<HTMLInputElement>document.getElementById('diametroRuedaCuatro')).classList.remove('is-valid');
-        
+        car = new Car(plate,color,brand);
+        for (let i = 1; i <= numWheels; i++) {
+            let brand = (<HTMLInputElement> document.getElementById("rueda" + i)).value;
+            let diameter = parseFloat((<HTMLInputElement> document.getElementById("diametroRueda" + i)).value);
+            car.addWheel(new Wheel(diameter, brand));
+            (<HTMLInputElement>document.getElementById('rueda'+i)).classList.remove('is-valid');
+            (<HTMLInputElement>document.getElementById('diametroRueda'+i)).classList.remove('is-valid');
+        };
         listCars.push(car);
     
     /*     (<HTMLInputElement>document.getElementById('carInfo')).innerHTML+=`<p>
@@ -198,14 +180,14 @@ function createCar(){
         (<HTMLInputElement>document.getElementById('color')).value="";
         (<HTMLInputElement>document.getElementById('marca')).value="";
 
-        (<HTMLInputElement>document.getElementById('ruedaUno')).value="";
-        (<HTMLInputElement>document.getElementById('ruedaDos')).value="";
-        (<HTMLInputElement>document.getElementById('ruedaTres')).value="";
-        (<HTMLInputElement>document.getElementById('ruedaCuatro')).value="";
-        (<HTMLInputElement>document.getElementById('diametroRuedaUno')).value='';
-        (<HTMLInputElement>document.getElementById('diametroRuedaDos')).value='';
-        (<HTMLInputElement>document.getElementById('diametroRuedaTres')).value='';
-        (<HTMLInputElement>document.getElementById('diametroRuedaCuatro')).value='';
+        (<HTMLInputElement>document.getElementById('rueda1')).value="";
+        (<HTMLInputElement>document.getElementById('rueda2')).value="";
+        (<HTMLInputElement>document.getElementById('rueda3')).value="";
+        (<HTMLInputElement>document.getElementById('rueda4')).value="";
+        (<HTMLInputElement>document.getElementById('diametroRueda1')).value='';
+        (<HTMLInputElement>document.getElementById('diametroRueda2')).value='';
+        (<HTMLInputElement>document.getElementById('diametroRueda3')).value='';
+        (<HTMLInputElement>document.getElementById('diametroRueda4')).value='';
         
         alert('Coche agregado');
     }else{
