@@ -2,40 +2,41 @@ const reg:RegExp =/^(\b\d{4}\w{3})$/igm;
 const reg1:RegExp =/^(\w{3,10})$/igm;
 let car: Car;
 let listCars: Array<Car> = []
-let placaOk : boolean = false;
-let colorOk : boolean = false;
-let marcaOk : boolean = false;
 let ValidateSignWheelSForm: boolean = false;
 let numWheels = 4;
+
+
+
 function ValidarPlaca() {
     const plate:string = (<HTMLInputElement>document.getElementById('placa')).value;
 
     if(plate.match(reg)){
         (<HTMLInputElement>document.getElementById('placa')).classList.add('is-valid');
         (<HTMLInputElement>document.getElementById('placa')).classList.remove('is-invalid');
-        (<HTMLInputElement>document.getElementById('msg-placa')).classList.add('hide');
-        return placaOk=true;
+        (<HTMLInputElement>document.getElementById('msg-placa')).classList.add('d-none');
+        return true;
     }else{
         (<HTMLInputElement>document.getElementById('msg-placa')).classList.add('msg-error');
         (<HTMLInputElement>document.getElementById('placa')).classList.add('is-invalid');
         (<HTMLInputElement>document.getElementById('msg-placa')).innerText = "La matrícula debe comenzar con 4 números y terminar con 3 letras. ";
-        (<HTMLInputElement>document.getElementById('msg-placa')).classList.remove('hide'); 
-        return placaOk=false;
+        (<HTMLInputElement>document.getElementById('msg-placa')).classList.remove('d-none'); 
+        return false;
     }
-}
+}  
+
 function ValidarColor() {
     const color:string = (<HTMLInputElement>document.getElementById('color')).value;
     if(color.match(reg1) ){
         (<HTMLInputElement>document.getElementById('color')).classList.add('is-valid');
         (<HTMLInputElement>document.getElementById('color')).classList.remove('is-invalid');
-        (<HTMLInputElement>document.getElementById('msg-color')).classList.add('hide');
-        return colorOk=true;
+        (<HTMLInputElement>document.getElementById('msg-color')).classList.add('d-none');
+        return true;
     }else{
         (<HTMLInputElement>document.getElementById('msg-color')).classList.add('msg-error');
         (<HTMLInputElement>document.getElementById('color')).classList.add('is-invalid');
-        (<HTMLInputElement>document.getElementById('msg-color')).innerText = "Agregue un  color";
-        (<HTMLInputElement>document.getElementById('msg-color')).classList.remove('hide'); 
-        return colorOk=false;
+        (<HTMLInputElement>document.getElementById('msg-color')).innerText = "Agregue un color (+ de 3 y menos de 11 caracters)";
+        (<HTMLInputElement>document.getElementById('msg-color')).classList.remove('d-none'); 
+        return false;
     }
 }
 function ValidarMarca() {
@@ -43,14 +44,14 @@ function ValidarMarca() {
     if(brand.match(reg1)){
         (<HTMLInputElement>document.getElementById('marca')).classList.add('is-valid');
         (<HTMLInputElement>document.getElementById('marca')).classList.remove('is-invalid');
-        (<HTMLInputElement>document.getElementById('msg-marca')).classList.add('hide');
-        return marcaOk=true;
+        (<HTMLInputElement>document.getElementById('msg-marca')).classList.add('d-none');
+        return true;
     }else{
         (<HTMLInputElement>document.getElementById('msg-marca')).classList.add('msg-error');
         (<HTMLInputElement>document.getElementById('marca')).classList.add('is-invalid');
-        (<HTMLInputElement>document.getElementById('msg-marca')).innerText = "Agregue la marca";
-        (<HTMLInputElement>document.getElementById('msg-marca')).classList.remove('hide'); 
-        return marcaOk=false;
+        (<HTMLInputElement>document.getElementById('msg-marca')).innerText = "Agregue la marca (+ de 3 y menos de 11 caracters)";
+        (<HTMLInputElement>document.getElementById('msg-marca')).classList.remove('d-none'); 
+        return false;
     }
 }
 
@@ -61,13 +62,13 @@ function validateEmptyInput(idInput: string){
     (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.remove('msg-error');
     if(val!==''){
         (<HTMLInputElement>document.getElementById(idInput)).classList.add('is-valid');
-        (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.add('hide');
+        (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.add('d-none');
         return true;
     }else{
         (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.add('msg-error');
         (<HTMLInputElement>document.getElementById(idInput)).classList.add('is-invalid');
         (<HTMLInputElement>document.getElementById('msg-' + idInput)).innerText = "Este campo es obligatorio";
-        (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.remove('hide');
+        (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.remove('d-none');
         return false;
     }
 }
@@ -90,13 +91,13 @@ function ValidateSignWheelS(idInput: string, validateDiametro: boolean){
         (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.remove('msg-error');
         if(val >= 0.4  && val <= 2 ){
             (<HTMLInputElement>document.getElementById(idInput)).classList.add('is-valid');
-            (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.add('hide');
+            (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.add('d-none');
             return true;
         }else {
             (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.add('msg-error');
             (<HTMLInputElement>document.getElementById(idInput)).classList.add('is-invalid');
             (<HTMLInputElement>document.getElementById('msg-' + idInput)).innerText = "Diámetro (0.4 y 2)";
-            (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.remove('hide');
+            (<HTMLInputElement>document.getElementById('msg-' + idInput)).classList.remove('d-none');
             return false;
         }
         
@@ -135,22 +136,23 @@ function ValidateSignWheelS(idInput: string, validateDiametro: boolean){
     }
 
     function validateFormSignCar(){
-        ValidarPlaca();
-        ValidarColor();
-        ValidarMarca();
-        if(placaOk && colorOk && marcaOk ){
-            (<HTMLInputElement>document.getElementById('Sign-car')).classList.toggle('hide');
-            (<HTMLInputElement>document.getElementById('Sign-wheelS')).classList.toggle('hide');
+    
+        if(ValidarPlaca() && ValidarColor() && ValidarMarca() ){
+            (<HTMLInputElement>document.getElementById('Sign-car')).classList.add('d-none');
+            (<HTMLInputElement>document.getElementById('Sign-wheelS')).classList.remove('d-none');
+        }else{
+            ValidarPlaca();ValidarColor();ValidarMarca();
         }
-    }
+        
+    } 
 
 function createCar(){
     if(validteFormWheels()){
         const plate:string = (<HTMLInputElement>document.getElementById('placa')).value;
         const color:string = (<HTMLInputElement>document.getElementById('color')).value;
         const brand:string = (<HTMLInputElement>document.getElementById('marca')).value;
-        (<HTMLInputElement>document.getElementById('Sign-car')).classList.toggle('hide');
-        (<HTMLInputElement>document.getElementById('Sign-wheelS')).classList.toggle('hide');
+        (<HTMLInputElement>document.getElementById('Sign-car')).classList.remove('d-none');
+        (<HTMLInputElement>document.getElementById('Sign-wheelS')).classList.add('d-none');
         
         (<HTMLInputElement>document.getElementById('placa')).classList.remove('is-valid');
         (<HTMLInputElement>document.getElementById('color')).classList.remove('is-valid');
@@ -159,9 +161,13 @@ function createCar(){
         for (let i = 1; i <= numWheels; i++) {
             let brand = (<HTMLInputElement> document.getElementById("rueda" + i)).value;
             let diameter = parseFloat((<HTMLInputElement> document.getElementById("diametroRueda" + i)).value);
+
             car.addWheel(new Wheel(diameter, brand));
             (<HTMLInputElement>document.getElementById('rueda'+i)).classList.remove('is-valid');
             (<HTMLInputElement>document.getElementById('diametroRueda'+i)).classList.remove('is-valid');
+
+            (<HTMLInputElement>document.getElementById("rueda" + i)).value="";
+            (<HTMLInputElement>document.getElementById("diametroRueda" + i)).value='';
         };
         listCars.push(car);
     
@@ -179,15 +185,6 @@ function createCar(){
         (<HTMLInputElement>document.getElementById('placa')).value="";
         (<HTMLInputElement>document.getElementById('color')).value="";
         (<HTMLInputElement>document.getElementById('marca')).value="";
-
-        (<HTMLInputElement>document.getElementById('rueda1')).value="";
-        (<HTMLInputElement>document.getElementById('rueda2')).value="";
-        (<HTMLInputElement>document.getElementById('rueda3')).value="";
-        (<HTMLInputElement>document.getElementById('rueda4')).value="";
-        (<HTMLInputElement>document.getElementById('diametroRueda1')).value='';
-        (<HTMLInputElement>document.getElementById('diametroRueda2')).value='';
-        (<HTMLInputElement>document.getElementById('diametroRueda3')).value='';
-        (<HTMLInputElement>document.getElementById('diametroRueda4')).value='';
         
         alert('Coche agregado');
     }else{
@@ -198,13 +195,13 @@ function createCar(){
 
 function showCars() { 
     let count:number=0;
-
+    (<HTMLInputElement>document.getElementById('carInfo')).innerHTML='';
         if (listCars.length===0) {
-            (<HTMLInputElement>document.getElementById('carInfo')).innerHTML='';
             (<HTMLInputElement>document.getElementById('carInfo')).innerHTML='<p class="px-2 pt-2"> No tenemos coches  para mostrar</p>'
         } else {
-            (<HTMLInputElement>document.getElementById('carInfo')).innerHTML='';
-            listCars.forEach(element => {  
+
+            listCars.forEach(element => { 
+                (<HTMLInputElement>document.getElementById('carInfo')).classList.remove('d-none');
                 (<HTMLInputElement>document.getElementById('carInfo')).innerHTML+='<p class="px-2 pt-2"> Marca:'+ " " + element.brand + " " + "Color:" + " " + element.color + " " + "Placa:" + " " + element.plate;
                 element.wheels.forEach(element2 => {
                     if (count<4) {
@@ -219,4 +216,8 @@ function showCars() {
             });
         }
         
+}
+
+function hidecars() {
+    (<HTMLInputElement>document.getElementById('carInfo')).classList.add('d-none');
 }

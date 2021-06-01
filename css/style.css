@@ -25,9 +25,7 @@ button{
 h1{
     margin-top:  3em;
 }
-.hide{
-    display:none
-}
+
 .wraper-1{
     display:flex;
     flex-direction:column;
@@ -41,7 +39,7 @@ h1{
 }
 
 .container{
-    border: 5px solid blue;
+    border: 5px solid rgb(99, 99, 167);
     width: 700px;
     margin-bottom:5px;
 }

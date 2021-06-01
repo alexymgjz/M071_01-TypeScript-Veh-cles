@@ -3,9 +3,6 @@ var reg = /^(\b\d{4}\w{3})$/igm;
 var reg1 = /^(\w{3,10})$/igm;
 var car;
 var listCars = [];
-var placaOk = false;
-var colorOk = false;
-var marcaOk = false;
 var ValidateSignWheelSForm = false;
 var numWheels = 4;
 function ValidarPlaca() {
@@ -13,15 +10,15 @@ function ValidarPlaca() {
     if (plate.match(reg)) {
         document.getElementById('placa').classList.add('is-valid');
         document.getElementById('placa').classList.remove('is-invalid');
-        document.getElementById('msg-placa').classList.add('hide');
-        return placaOk = true;
+        document.getElementById('msg-placa').classList.add('d-none');
+        return true;
     }
     else {
         document.getElementById('msg-placa').classList.add('msg-error');
         document.getElementById('placa').classList.add('is-invalid');
         document.getElementById('msg-placa').innerText = "La matrícula debe comenzar con 4 números y terminar con 3 letras. ";
-        document.getElementById('msg-placa').classList.remove('hide');
-        return placaOk = false;
+        document.getElementById('msg-placa').classList.remove('d-none');
+        return false;
     }
 }
 function ValidarColor() {
@@ -29,15 +26,15 @@ function ValidarColor() {
     if (color.match(reg1)) {
         document.getElementById('color').classList.add('is-valid');
         document.getElementById('color').classList.remove('is-invalid');
-        document.getElementById('msg-color').classList.add('hide');
-        return colorOk = true;
+        document.getElementById('msg-color').classList.add('d-none');
+        return true;
     }
     else {
         document.getElementById('msg-color').classList.add('msg-error');
         document.getElementById('color').classList.add('is-invalid');
-        document.getElementById('msg-color').innerText = "Agregue un  color";
-        document.getElementById('msg-color').classList.remove('hide');
-        return colorOk = false;
+        document.getElementById('msg-color').innerText = "Agregue un color (+ de 3 y menos de 11 caracters)";
+        document.getElementById('msg-color').classList.remove('d-none');
+        return false;
     }
 }
 function ValidarMarca() {
@@ -45,15 +42,15 @@ function ValidarMarca() {
     if (brand.match(reg1)) {
         document.getElementById('marca').classList.add('is-valid');
         document.getElementById('marca').classList.remove('is-invalid');
-        document.getElementById('msg-marca').classList.add('hide');
-        return marcaOk = true;
+        document.getElementById('msg-marca').classList.add('d-none');
+        return true;
     }
     else {
         document.getElementById('msg-marca').classList.add('msg-error');
         document.getElementById('marca').classList.add('is-invalid');
-        document.getElementById('msg-marca').innerText = "Agregue la marca";
-        document.getElementById('msg-marca').classList.remove('hide');
-        return marcaOk = false;
+        document.getElementById('msg-marca').innerText = "Agregue la marca (+ de 3 y menos de 11 caracters)";
+        document.getElementById('msg-marca').classList.remove('d-none');
+        return false;
     }
 }
 function validateEmptyInput(idInput) {
@@ -63,14 +60,14 @@ function validateEmptyInput(idInput) {
     document.getElementById('msg-' + idInput).classList.remove('msg-error');
     if (val !== '') {
         document.getElementById(idInput).classList.add('is-valid');
-        document.getElementById('msg-' + idInput).classList.add('hide');
+        document.getElementById('msg-' + idInput).classList.add('d-none');
         return true;
     }
     else {
         document.getElementById('msg-' + idInput).classList.add('msg-error');
         document.getElementById(idInput).classList.add('is-invalid');
         document.getElementById('msg-' + idInput).innerText = "Este campo es obligatorio";
-        document.getElementById('msg-' + idInput).classList.remove('hide');
+        document.getElementById('msg-' + idInput).classList.remove('d-none');
         return false;
     }
 }
@@ -91,14 +88,14 @@ function ValidarDiametro(idInput) {
     document.getElementById('msg-' + idInput).classList.remove('msg-error');
     if (val >= 0.4 && val <= 2) {
         document.getElementById(idInput).classList.add('is-valid');
-        document.getElementById('msg-' + idInput).classList.add('hide');
+        document.getElementById('msg-' + idInput).classList.add('d-none');
         return true;
     }
     else {
         document.getElementById('msg-' + idInput).classList.add('msg-error');
         document.getElementById(idInput).classList.add('is-invalid');
         document.getElementById('msg-' + idInput).innerText = "Diámetro (0.4 y 2)";
-        document.getElementById('msg-' + idInput).classList.remove('hide');
+        document.getElementById('msg-' + idInput).classList.remove('d-none');
         return false;
     }
 }
@@ -130,12 +127,14 @@ function validteFormWheels() {
     return true;
 }
 function validateFormSignCar() {
-    ValidarPlaca();
-    ValidarColor();
-    ValidarMarca();
-    if (placaOk && colorOk && marcaOk) {
-        document.getElementById('Sign-car').classList.toggle('hide');
-        document.getElementById('Sign-wheelS').classList.toggle('hide');
+    if (ValidarPlaca() && ValidarColor() && ValidarMarca()) {
+        document.getElementById('Sign-car').classList.add('d-none');
+        document.getElementById('Sign-wheelS').classList.remove('d-none');
+    }
+    else {
+        ValidarPlaca();
+        ValidarColor();
+        ValidarMarca();
     }
 }
 function createCar() {
@@ -143,8 +142,8 @@ function createCar() {
         var plate = document.getElementById('placa').value;
         var color = document.getElementById('color').value;
         var brand = document.getElementById('marca').value;
-        document.getElementById('Sign-car').classList.toggle('hide');
-        document.getElementById('Sign-wheelS').classList.toggle('hide');
+        document.getElementById('Sign-car').classList.remove('d-none');
+        document.getElementById('Sign-wheelS').classList.add('d-none');
         document.getElementById('placa').classList.remove('is-valid');
         document.getElementById('color').classList.remove('is-valid');
         document.getElementById('marca').classList.remove('is-valid');
@@ -155,6 +154,8 @@ function createCar() {
             car.addWheel(new Wheel(diameter, brand_1));
             document.getElementById('rueda' + i).classList.remove('is-valid');
             document.getElementById('diametroRueda' + i).classList.remove('is-valid');
+            document.getElementById("rueda" + i).value = "";
+            document.getElementById("diametroRueda" + i).value = '';
         }
         ;
         listCars.push(car);
@@ -170,14 +171,6 @@ function createCar() {
         document.getElementById('placa').value = "";
         document.getElementById('color').value = "";
         document.getElementById('marca').value = "";
-        document.getElementById('rueda1').value = "";
-        document.getElementById('rueda2').value = "";
-        document.getElementById('rueda3').value = "";
-        document.getElementById('rueda4').value = "";
-        document.getElementById('diametroRueda1').value = '';
-        document.getElementById('diametroRueda2').value = '';
-        document.getElementById('diametroRueda3').value = '';
-        document.getElementById('diametroRueda4').value = '';
         alert('Coche agregado');
     }
     else {
@@ -186,13 +179,13 @@ function createCar() {
 }
 function showCars() {
     var count = 0;
+    document.getElementById('carInfo').innerHTML = '';
     if (listCars.length === 0) {
-        document.getElementById('carInfo').innerHTML = '';
         document.getElementById('carInfo').innerHTML = '<p class="px-2 pt-2"> No tenemos coches  para mostrar</p>';
     }
     else {
-        document.getElementById('carInfo').innerHTML = '';
         listCars.forEach(function (element) {
+            document.getElementById('carInfo').classList.remove('d-none');
             document.getElementById('carInfo').innerHTML += '<p class="px-2 pt-2"> Marca:' + " " + element.brand + " " + "Color:" + " " + element.color + " " + "Placa:" + " " + element.plate;
             element.wheels.forEach(function (element2) {
                 if (count < 4) {
@@ -206,4 +199,7 @@ function showCars() {
             document.getElementById('carInfo').innerHTML += "<hr/>";
         });
     }
+}
+function hidecars() {
+    document.getElementById('carInfo').classList.add('d-none');
 }
