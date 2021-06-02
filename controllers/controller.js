@@ -100,35 +100,21 @@ function ValidarDiametro(idInput) {
     }
 }
 function validteFormWheels() {
-    if (!ValidateSignWheelS('rueda1', false)) {
-        return false;
+    var count = 0;
+    for (var i = 1; i <= numWheels; i++) {
+        ValidateSignWheelS(("rueda" + i), false);
+        ValidateSignWheelS(("diametroRueda" + i), true);
+        if (ValidateSignWheelS(("diametroRueda" + i), true) && ValidateSignWheelS(("diametroRueda" + i), true)) {
+            count++;
+            if (i == numWheels) {
+                return true;
+            }
+        }
     }
-    if (!ValidateSignWheelS('diametroRueda1', true)) {
-        return false;
-    }
-    if (!ValidateSignWheelS('rueda2', false)) {
-        return false;
-    }
-    if (!ValidateSignWheelS('diametroRueda2', true)) {
-        return false;
-    }
-    if (!ValidateSignWheelS('rueda3', false)) {
-        return false;
-    }
-    if (!ValidateSignWheelS('diametroRueda3', true)) {
-        return false;
-    }
-    if (!ValidateSignWheelS('rueda4', false)) {
-        return false;
-    }
-    if (!ValidateSignWheelS('diametroRueda4', true)) {
-        return false;
-    }
-    return true;
 }
 function validateFormSignCar() {
     if (ValidarPlaca() && ValidarColor() && ValidarMarca()) {
-        document.getElementById('Sign-car').classList.add('d-none');
+        document.getElementById('container').classList.add('d-none');
         document.getElementById('Sign-wheelS').classList.remove('d-none');
     }
     else {
@@ -142,7 +128,7 @@ function createCar() {
         var plate = document.getElementById('placa').value;
         var color = document.getElementById('color').value;
         var brand = document.getElementById('marca').value;
-        document.getElementById('Sign-car').classList.remove('d-none');
+        document.getElementById('container').classList.remove('d-none');
         document.getElementById('Sign-wheelS').classList.add('d-none');
         document.getElementById('placa').classList.remove('is-valid');
         document.getElementById('color').classList.remove('is-valid');
@@ -159,15 +145,6 @@ function createCar() {
         }
         ;
         listCars.push(car);
-        /*     (<HTMLInputElement>document.getElementById('carInfo')).innerHTML+=`<p>
-            ${car.brand} <br>
-            PLATE: ${car.plate} <br>
-            COLOR: ${car.color}  <br>
-            </p>`;
-            
-            car.getWheels().forEach(element => {
-            (<HTMLInputElement>document.getElementById('carInfo')).innerHTML+=`<p> Marca de la rueda:${element.brand} Diametro de la rueda${element.diameter}</p>`;
-        });  */
         document.getElementById('placa').value = "";
         document.getElementById('color').value = "";
         document.getElementById('marca').value = "";

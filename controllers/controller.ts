@@ -74,6 +74,7 @@ function validateEmptyInput(idInput: string){
 }
 
 function ValidateSignWheelS(idInput: string, validateDiametro: boolean){
+    
     const valid = validateEmptyInput(idInput);
     if(valid && validateDiametro){
         return ValidateSignWheelSForm = ValidarDiametro(idInput);
@@ -104,41 +105,26 @@ function ValidateSignWheelS(idInput: string, validateDiametro: boolean){
     } 
 
     function validteFormWheels(){
-        if(!ValidateSignWheelS('rueda1', false)){
-            return false;
+        let count = 0;
+        for (let i = 1; i <= numWheels; i++) {
+        ValidateSignWheelS(("rueda" + i), false);
+        ValidateSignWheelS(("diametroRueda" + i), true);
+        if( ValidateSignWheelS(("diametroRueda" + i), true) && ValidateSignWheelS(("diametroRueda" + i), true)){
+            count++;
+            if (i==numWheels) {
+                return true;
+            }
+            
         }
-
-        if(!ValidateSignWheelS('diametroRueda1', true)){
-            return false;
-        }
-        if(!ValidateSignWheelS('rueda2', false)){
-            return false;
-        }
-
-        if(!ValidateSignWheelS('diametroRueda2', true)){
-            return false;
-        }
-        if(!ValidateSignWheelS('rueda3', false)){
-            return false;
-        }
-
-        if(!ValidateSignWheelS('diametroRueda3', true)){
-            return false;
-        }
-        if(!ValidateSignWheelS('rueda4', false)){
-            return false;
-        }
-
-        if(!ValidateSignWheelS('diametroRueda4', true)){
-            return false;
-        }
-        return true;
     }
+
+    }
+
 
     function validateFormSignCar(){
     
         if(ValidarPlaca() && ValidarColor() && ValidarMarca() ){
-            (<HTMLInputElement>document.getElementById('Sign-car')).classList.add('d-none');
+            (<HTMLInputElement>document.getElementById('container')).classList.add('d-none');
             (<HTMLInputElement>document.getElementById('Sign-wheelS')).classList.remove('d-none');
         }else{
             ValidarPlaca();ValidarColor();ValidarMarca();
@@ -151,7 +137,7 @@ function createCar(){
         const plate:string = (<HTMLInputElement>document.getElementById('placa')).value;
         const color:string = (<HTMLInputElement>document.getElementById('color')).value;
         const brand:string = (<HTMLInputElement>document.getElementById('marca')).value;
-        (<HTMLInputElement>document.getElementById('Sign-car')).classList.remove('d-none');
+        (<HTMLInputElement>document.getElementById('container')).classList.remove('d-none');
         (<HTMLInputElement>document.getElementById('Sign-wheelS')).classList.add('d-none');
         
         (<HTMLInputElement>document.getElementById('placa')).classList.remove('is-valid');
@@ -170,18 +156,7 @@ function createCar(){
             (<HTMLInputElement>document.getElementById("diametroRueda" + i)).value='';
         };
         listCars.push(car);
-    
-    /*     (<HTMLInputElement>document.getElementById('carInfo')).innerHTML+=`<p>
-        ${car.brand} <br>
-        PLATE: ${car.plate} <br>
-        COLOR: ${car.color}  <br> 
-        </p>`; 
         
-        car.getWheels().forEach(element => {
-        (<HTMLInputElement>document.getElementById('carInfo')).innerHTML+=`<p> Marca de la rueda:${element.brand} Diametro de la rueda${element.diameter}</p>`; 
-    });  */
-
-
         (<HTMLInputElement>document.getElementById('placa')).value="";
         (<HTMLInputElement>document.getElementById('color')).value="";
         (<HTMLInputElement>document.getElementById('marca')).value="";
